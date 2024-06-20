@@ -1,0 +1,13 @@
+{
+  "name": "battle-ship",
+  "version": "1.0.0",
+  "description": "Battle Ship game that I created as one of my TOP assignment.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
