@@ -34,6 +34,18 @@ describe("Ship", () => {
         expect(ship.hp).toBe(5);
     });
 
+    it("should decrease the ship hp", () => {
+        const ship = new Ship(5, 5);
+        ship.hit();
+        expect(ship.hp).toBe(4);
+    });
+
+    it("should not decrease the hp if ship hp is already depleted", () => {
+        const ship = new Ship();
+        ship.hit();
+        expect(ship.hp).toBe(0);
+    });
+
     it("should not sink ship if ship still has hp", () => {
         const ship = new Ship(5, 5);
         expect(ship.isSunk()).toBeFalsy();

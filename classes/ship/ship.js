@@ -4,6 +4,10 @@ export default class Ship {
         this.length = length;
     }
 
+    hit() {
+        if (this.hp > 0) this.hp--;
+    }
+
     isSunk() {
         if (this.hp <= 0) return true;
         return false;
