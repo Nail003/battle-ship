@@ -1,5 +1,8 @@
 import Ship from "./ship";
 
+const defaultHp = 1;
+const defaultLength = 1;
+
 describe("Ship", () => {
     it("should create a new ship", () => {
         const ship = new Ship();
@@ -8,12 +11,12 @@ describe("Ship", () => {
 
     it("should return the ship default hp", () => {
         const ship = new Ship();
-        expect(ship.hp).toBe(0);
+        expect(ship.hp).toBe(defaultHp);
     });
 
     it("should return the ship default length", () => {
         const ship = new Ship();
-        expect(ship.length).toBe(0);
+        expect(ship.length).toBe(defaultLength);
     });
 
     it("should set the ship hp", () => {
@@ -41,7 +44,7 @@ describe("Ship", () => {
     });
 
     it("should not decrease the hp if ship hp is already depleted", () => {
-        const ship = new Ship();
+        const ship = new Ship(0);
         ship.hit();
         expect(ship.hp).toBe(0);
     });
