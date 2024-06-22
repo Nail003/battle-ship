@@ -1,11 +1,16 @@
 const rowsArray = "abcdefghij".split("");
+// Testing exports
+export const defaultCell = { isEmpty: true, isAttacked: false, shipRef: null };
 
 export default class Gameboard {
     #board;
     #border;
+    #activeShips;
     constructor() {
         this.#board = this.#createCoords();
         this.#border = 10;
+        this.#activeShips = 0;
+        this.missedAttacks = 0;
     }
 
     info(coords) {
@@ -33,6 +38,34 @@ export default class Gameboard {
         return true;
     }
 
+    receiveAttack(coords) {
+        const [row, col] = coords;
+        const cell = this.#board[row][col];
+
+        // Attack to an already attacked cell is unacceptable
+        if (cell.isAttacked) return false;
+
+        // Set cell to be attacked
+        cell.isAttacked = true;
+
+        // Return false on unsuccessfull attack
+        if (cell.isEmpty) {
+            this.missedAttacks++;
+            return false;
+        }
+
+        // Attack the ship
+        cell.shipRef.hit();
+        // Decrease total ships if this ship is destroyed
+        if (cell.shipRef.isSunk()) this.#activeShips--;
+        // Return true on successfull attack
+        return true;
+    }
+
+    isAllShipSunk() {
+        return this.#activeShips === 0 ? true : false;
+    }
+
     // Private Methods
     #createCoords() {
         const coords = {};
@@ -44,7 +77,7 @@ export default class Gameboard {
             // Add columns (total 10)
             for (let col = 0; col < 10; col++) {
                 // Base cell of the board
-                const cell = { isEmpty: true, shipRef: null };
+                const cell = JSON.parse(JSON.stringify(defaultCell)); // Create Deep copy
                 // Add base cell
                 coords[row].push(cell);
             }
@@ -62,6 +95,8 @@ export default class Gameboard {
             this.#board[nextRow][col].isEmpty = false;
             this.#board[nextRow][col].shipRef = ship;
         }
+        // Increase number of ships
+        this.#activeShips++;
     }
 
     #addShipVerticaly(row, col, ship) {
@@ -71,5 +106,7 @@ export default class Gameboard {
             this.#board[row][nextCol].isEmpty = false;
             this.#board[row][nextCol].shipRef = ship;
         }
+        // Increase number of ships
+        this.#activeShips++;
     }
 }
