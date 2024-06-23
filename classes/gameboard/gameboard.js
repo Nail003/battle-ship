@@ -8,7 +8,7 @@ export default class Gameboard {
     #activeShips;
     constructor() {
         this.#board = this.#createCoords();
-        this.#border = 10;
+        this.#border = { min: 0, max: 10 };
         this.#activeShips = 0;
         this.missedAttacks = 0;
     }
@@ -23,14 +23,18 @@ export default class Gameboard {
 
         if (horizontal) {
             // Don't add ships that exeeds border horizontly
-            if (col + ship.length > this.#border) return false;
+            if (col + ship.length > this.#border.max) return false;
+            // Don't add ship if there is already a ship present
+            if (this.#isOccupiedHorizontly(row, col, ship)) return false;
 
             // Add ship
             return this.#addShipHorizontly(row, col, ship);
         }
-        // Don't add ships that exeeds border verticaly
         const rowIndex = rowsArray.indexOf(row);
-        if (rowIndex + ship.length > this.#border) return false;
+        // Don't add ships that exeeds border verticaly
+        if (rowIndex + ship.length > this.#border.max) return false;
+        // Don't add ship if there is already a ship present
+        if (this.#isOccupiedVertically(row, col, ship)) return false;
 
         // Add ship
         return this.#addShipVerticaly(row, col, ship);
@@ -112,5 +116,62 @@ export default class Gameboard {
         // Increase number of ships
         this.#activeShips++;
         return shipCoords;
+    }
+
+    #isOccupiedHorizontly(row, col, ship) {
+        for (let i = 0; i < ship.length; i++) {
+            const nextCol = col + i;
+            // If there is a ship in one the of cells
+            if (this.#isOccupied(row, nextCol)) return true;
+        }
+        // Else we are green
+        return false;
+    }
+
+    #isOccupiedVertically(row, col, ship) {
+        const rowIndex = rowsArray.indexOf(row);
+        for (let i = 0; i < ship.length; i++) {
+            // If there is a ship in one the of cells
+            const nextRow = rowsArray[rowIndex + i];
+            if (this.#isOccupied(nextRow, col)) return true;
+        }
+        // Else we are green
+        return false;
+    }
+
+    #isOccupied(row, col) {
+        // Compare the current and all adjacent cells
+        // If any of them is occupied return true
+        const rowIndex = rowsArray.indexOf(row);
+
+        // Current
+        if (!this.#board[rowsArray[rowIndex]][col].isEmpty) return true;
+        // Right
+        if (
+            col + 1 < this.#border.max &&
+            !this.#board[rowsArray[rowIndex]][col + 1].isEmpty
+        )
+            return true;
+        // Left
+        if (
+            col - 1 >= this.#border.min &&
+            !this.#board[rowsArray[rowIndex]][col - 1].isEmpty
+        )
+            return true;
+        // Bottom
+        if (
+            rowIndex + 1 < this.#border.max &&
+            !this.#board[rowsArray[rowIndex + 1]][col].isEmpty
+        )
+            return true;
+        // Top
+        if (
+            rowIndex - 1 >= this.#border.min &&
+            !this.#board[rowsArray[rowIndex - 1]][col].isEmpty
+        )
+            return true;
+
+        // All cells are empty
+        return false;
     }
 }

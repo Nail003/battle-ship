@@ -102,6 +102,30 @@ describe("Gameboard", () => {
         expect(board.info(coords)).toEqual(defaultCell);
     });
 
+    it("should not add ship if a ship already exists in specified coordinates vertically", () => {
+        const ship = new Ship(3, 3);
+        const coords = ["a", 5];
+        const coords2 = ["b", 5];
+        board.addShip(coords, ship);
+        expect(board.addShip(coords2, ship)).toBeFalsy();
+    });
+
+    it("should not add ship if a ship already exists in specified coordinates horizontly", () => {
+        const ship = new Ship(3, 3);
+        const coords = ["a", 5];
+        const coords2 = ["a", 6];
+        board.addShip(coords, ship, true);
+        expect(board.addShip(coords2, ship, true)).toBeFalsy();
+    });
+
+    it("should not add ship if a ship already exist in surrounding tiles", () => {
+        const ship = new Ship(3, 3);
+        const coords = ["b", 5];
+        const coords2 = ["c", 6];
+        board.addShip(coords, ship, true);
+        expect(board.addShip(coords2, ship, true)).toBeFalsy();
+    });
+
     describe("Attack", () => {
         const coords = ["b", 2];
 
