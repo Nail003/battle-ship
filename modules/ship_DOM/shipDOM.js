@@ -8,25 +8,35 @@ export default function renderShips(player) {
     const subMarine = new Ship(3, 3);
     const destroyer = new Ship(2, 2);
 
-    renderShip(player.board.addShip(["a", 1], carrier, true));
-    renderShip(player.board.addShip(["f", 1], battleShip, true));
-    renderShip(player.board.addShip(["c", 1], cruiser, true));
-    renderShip(player.board.addShip(["d", 5], subMarine, true));
-    renderShip(player.board.addShip(["j", 1], destroyer, true));
+    // Render each ship on player board
+    renderShip(player.board.addShip(["b", 3], carrier, true));
+    renderShip(player.board.addShip(["f", 5], battleShip));
+    renderShip(player.board.addShip(["d", 1], cruiser, true));
+    renderShip(player.board.addShip(["e", 8], subMarine));
+    renderShip(player.board.addShip(["h", 2], destroyer, true));
 }
 
 function renderShip(shipCoords) {
     // If ship breaks the rules don't add it
-    if (!shipCoords) return;
+    if (!shipCoords) {
+        console.log("Ship rejected");
+        return;
+    }
 
+    // Get
     const player1DOM = document.getElementsByClassName("player1-board")[0];
+
+    // Create coordsString
     const coordsString = shipCoords.reduce(
         (prev, curr) => (prev += curr.join("")),
         ""
     );
 
-    const coords = coordsString.match(/.{1,2}/g);
-    for (const coord of coords) {
+    // Create coordsArray
+    const coordsArray = coordsString.match(/.{1,2}/g);
+
+    // Loop through each coord and mark it as ship
+    for (const coord of coordsArray) {
         const cellDOM = player1DOM.querySelector(`[data-coords~=${coord}]`);
         cellDOM.classList.add("board-cell--ship");
     }
