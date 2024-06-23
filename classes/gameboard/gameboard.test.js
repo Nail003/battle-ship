@@ -66,6 +66,28 @@ describe("Gameboard", () => {
         });
     });
 
+    it("should return coordinates of added ship horizontly", () => {
+        const ship = new Ship(3, 3);
+        const coords = ["d", 5];
+        const coords2 = ["e", 5];
+        const coords3 = ["f", 5];
+
+        expect(board.addShip(coords, ship, true)).toEqual([
+            coords,
+            coords2,
+            coords3,
+        ]);
+    });
+
+    it("should return coordinates of added ship vertically", () => {
+        const ship = new Ship(3, 3);
+        const coords = ["d", 5];
+        const coords2 = ["d", 6];
+        const coords3 = ["d", 7];
+
+        expect(board.addShip(coords, ship)).toEqual([coords, coords2, coords3]);
+    });
+
     it("should not add ship exeeding the borders of the board vertically", () => {
         const ship = new Ship(3, 3);
         const coords = ["f", 8];

@@ -27,15 +27,13 @@ export default class Gameboard {
             if (rowIndex + ship.length > this.#border) return false;
 
             // Add ship
-            this.#addShipHorizontly(row, col, ship);
-            return true;
+            return this.#addShipHorizontly(row, col, ship);
         }
         // Don't add ships that exeeds border verticaly
         if (col + ship.length > this.#border) return false;
 
         // Add ship
-        this.#addShipVerticaly(row, col, ship);
-        return true;
+        return this.#addShipVerticaly(row, col, ship);
     }
 
     receiveAttack(coords) {
@@ -86,6 +84,7 @@ export default class Gameboard {
     }
 
     #addShipHorizontly(row, col, ship) {
+        const shipCoords = [];
         // Add ship to specified cells
         // We need to get the numerical index of row string
         const rowIndex = rowsArray.indexOf(row);
@@ -94,19 +93,24 @@ export default class Gameboard {
             const nextRow = rowsArray[rowIndex + i];
             this.#board[nextRow][col].isEmpty = false;
             this.#board[nextRow][col].shipRef = ship;
+            shipCoords.push([nextRow, col]);
         }
         // Increase number of ships
         this.#activeShips++;
+        return shipCoords;
     }
 
     #addShipVerticaly(row, col, ship) {
+        const shipCoords = [];
         // Add ship to specified cells
         for (let i = 0; i < ship.length; i++) {
             const nextCol = col + i;
             this.#board[row][nextCol].isEmpty = false;
             this.#board[row][nextCol].shipRef = ship;
+            shipCoords.push([row, nextCol]);
         }
         // Increase number of ships
         this.#activeShips++;
+        return shipCoords;
     }
 }
