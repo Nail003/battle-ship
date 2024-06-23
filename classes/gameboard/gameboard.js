@@ -23,14 +23,14 @@ export default class Gameboard {
 
         if (horizontal) {
             // Don't add ships that exeeds border horizontly
-            const rowIndex = rowsArray.indexOf(row);
-            if (rowIndex + ship.length > this.#border) return false;
+            if (col + ship.length > this.#border) return false;
 
             // Add ship
             return this.#addShipHorizontly(row, col, ship);
         }
         // Don't add ships that exeeds border verticaly
-        if (col + ship.length > this.#border) return false;
+        const rowIndex = rowsArray.indexOf(row);
+        if (rowIndex + ship.length > this.#border) return false;
 
         // Add ship
         return this.#addShipVerticaly(row, col, ship);

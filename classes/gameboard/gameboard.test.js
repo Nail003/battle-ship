@@ -90,7 +90,7 @@ describe("Gameboard", () => {
 
     it("should not add ship exeeding the borders of the board vertically", () => {
         const ship = new Ship(3, 3);
-        const coords = ["f", 8];
+        const coords = ["j", 8];
         expect(board.addShip(coords, ship)).toBeFalsy();
         expect(board.info(coords)).toEqual(defaultCell);
     });
