@@ -38,8 +38,8 @@ describe("Gameboard", () => {
         test("ship with length = 3", () => {
             const ship = new Ship(3, 3);
             const coords = ["f", 5];
-            const coords2 = ["f", 6];
-            const coords3 = ["f", 7];
+            const coords2 = ["g", 5];
+            const coords3 = ["h", 5];
 
             board.addShip(coords, ship);
             expect(board.info(coords).isEmpty).toBeFalsy();
@@ -53,8 +53,8 @@ describe("Gameboard", () => {
         test("ship with horizontal rotation", () => {
             const ship = new Ship(3, 3);
             const coords = ["d", 5];
-            const coords2 = ["e", 5];
-            const coords3 = ["f", 5];
+            const coords2 = ["d", 6];
+            const coords3 = ["d", 7];
 
             board.addShip(coords, ship, true);
             expect(board.info(coords).isEmpty).toBeFalsy();
@@ -69,8 +69,8 @@ describe("Gameboard", () => {
     it("should return coordinates of added ship horizontly", () => {
         const ship = new Ship(3, 3);
         const coords = ["d", 5];
-        const coords2 = ["e", 5];
-        const coords3 = ["f", 5];
+        const coords2 = ["d", 6];
+        const coords3 = ["d", 7];
 
         expect(board.addShip(coords, ship, true)).toEqual([
             coords,
@@ -82,8 +82,8 @@ describe("Gameboard", () => {
     it("should return coordinates of added ship vertically", () => {
         const ship = new Ship(3, 3);
         const coords = ["d", 5];
-        const coords2 = ["d", 6];
-        const coords3 = ["d", 7];
+        const coords2 = ["e", 5];
+        const coords3 = ["f", 5];
 
         expect(board.addShip(coords, ship)).toEqual([coords, coords2, coords3]);
     });

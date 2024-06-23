@@ -83,7 +83,7 @@ export default class Gameboard {
         return coords;
     }
 
-    #addShipHorizontly(row, col, ship) {
+    #addShipVerticaly(row, col, ship) {
         const shipCoords = [];
         // Add ship to specified cells
         // We need to get the numerical index of row string
@@ -100,7 +100,7 @@ export default class Gameboard {
         return shipCoords;
     }
 
-    #addShipVerticaly(row, col, ship) {
+    #addShipHorizontly(row, col, ship) {
         const shipCoords = [];
         // Add ship to specified cells
         for (let i = 0; i < ship.length; i++) {
