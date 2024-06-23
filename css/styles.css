@@ -1,0 +1,80 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: var(--white);
+}
+
+:root {
+    --black-pure: hsl(0, 0%, 0%);
+    --black: hsl(0, 0%, 10%);
+    --grey-dark: hsl(0, 0%, 20%);
+    --grey: hsl(0, 0%, 30%);
+    --grey-glass: hsla(0, 0%, 30%, 0.8);
+    --white: hsl(100, 100%, 100%);
+    --white-glass: hsla(100, 100%, 100%, 0.4);
+    --transparent: hsla(100, 100%, 100%, 0);
+}
+
+.header__title{
+    padding: 8px;
+    text-align: center;
+    background-color: var(--grey-dark);
+    box-shadow: 0 0 16px var(--black-pure);
+}
+
+body {
+    background-color: var(--black);
+}
+
+.board-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 16px 0;
+}
+
+.board {
+    display: grid;
+    width: 512px;
+    height: 512px;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 1px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.scanner-background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    scale: 1.5;
+
+    background: conic-gradient(var(--transparent) 300deg, var(--white-glass));
+
+    animation: scan 8s infinite linear;
+}
+
+.board_cell {
+    background-color: var(--grey-glass);
+}
+
+.player2-board .board_cell:hover {
+    border: 1px solid var(--white);
+}
+
+
+@keyframes scan {
+    to {
+	transform: rotate(1turn);
+    }
+}
