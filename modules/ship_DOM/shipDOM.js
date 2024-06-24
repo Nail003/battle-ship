@@ -1,6 +1,9 @@
 import Ship from "../../classes/ship/ship.js";
 
-export default function renderShips(player) {
+export default function renderShips(player1, player2) {
+    // Get
+    const player1DOM = document.getElementsByClassName("player1-board")[0];
+
     // Ships
     const carrier = new Ship(5, 5);
     const battleShip = new Ship(4, 4);
@@ -8,15 +11,22 @@ export default function renderShips(player) {
     const subMarine = new Ship(3, 3);
     const destroyer = new Ship(2, 2);
 
-    // Render each ship on player board
-    renderShip(player.board.addShip(["b", 3], carrier, true));
-    renderShip(player.board.addShip(["f", 5], battleShip));
-    renderShip(player.board.addShip(["d", 1], cruiser, true));
-    renderShip(player.board.addShip(["e", 8], subMarine));
-    renderShip(player.board.addShip(["h", 2], destroyer, true));
+    // Render each ship on player1 board
+    renderShip(player1.board.addShip(["f", 5], battleShip), player1DOM);
+    renderShip(player1.board.addShip(["b", 3], carrier, true), player1DOM);
+    renderShip(player1.board.addShip(["d", 1], cruiser, true), player1DOM);
+    renderShip(player1.board.addShip(["e", 8], subMarine), player1DOM);
+    renderShip(player1.board.addShip(["h", 2], destroyer, true), player1DOM);
+
+    // Add player 2 ships on board but don't them
+    player2.board.addShip(["f", 5], battleShip);
+    player2.board.addShip(["b", 3], carrier, true);
+    player2.board.addShip(["d", 1], cruiser, true);
+    player2.board.addShip(["e", 8], subMarine);
+    player2.board.addShip(["h", 2], destroyer, true);
 }
 
-function renderShip(shipCoords) {
+function renderShip(shipCoords, playerDOM) {
     // If ship breaks the rules don't add it
     if (!shipCoords) {
         console.log("Ship rejected");
@@ -24,7 +34,6 @@ function renderShip(shipCoords) {
     }
 
     // Get
-    const player1DOM = document.getElementsByClassName("player1-board")[0];
 
     // Create coordsString
     const coordsString = shipCoords.reduce(
@@ -37,7 +46,7 @@ function renderShip(shipCoords) {
 
     // Loop through each coord and mark it as ship
     for (const coord of coordsArray) {
-        const cellDOM = player1DOM.querySelector(`[data-coords~=${coord}]`);
+        const cellDOM = playerDOM.querySelector(`[data-coords~=${coord}]`);
         cellDOM.classList.add("board-cell--ship");
     }
 }

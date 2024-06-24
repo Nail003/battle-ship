@@ -1,11 +1,11 @@
-export default function renderGameboard() {
+export default function renderGameboard(player1, player2) {
     // Get
     const boardContainer =
         document.getElementsByClassName("board-container")[0];
 
     // Create Child
-    const player1Board = createGameboard();
-    const player2Board = createGameboard();
+    const player1Board = createGameboard(player1);
+    const player2Board = createGameboard(player2);
 
     // Update Child
     player1Board.classList.add("player1-board");
@@ -21,7 +21,7 @@ export default function renderGameboard() {
     boardContainer.appendChild(player2Board);
 }
 
-function createGameboard() {
+function createGameboard(player) {
     const rows = "abcdefghij".split("");
     const border = 10;
     // Create
@@ -38,10 +38,22 @@ function createGameboard() {
             // Update Child
             cell.dataset.coords = `${row}${col}`;
             cell.classList.add("board_cell");
+            cell.addEventListener("click", handleCellClick(player));
 
             // Append Child
             board.appendChild(cell);
         }
     }
     return board;
+}
+
+function handleCellClick(player) {
+    return (e) => {
+        const coords = e.target.dataset.coords.split("");
+        if (player.board.receiveAttack(coords)) {
+            e.target.classList.add("board-cell--attacked");
+            return;
+        }
+        e.target.classList.add("board-cell--missed");
+    };
 }
