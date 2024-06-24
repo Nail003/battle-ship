@@ -21,11 +21,37 @@
     --transparent: hsla(100, 100%, 100%, 0);
 }
 
-.header__title{
-    padding: 8px;
-    text-align: center;
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 8px 64px;
     background-color: var(--grey-dark);
     box-shadow: 0 0 16px var(--black-pure);
+}
+
+.header__button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+}
+
+.header__button {
+    width: 128px;
+    height: 32px;
+    border: none;
+    border: 1px solid var(--white);
+    border-radius: 4px;
+
+    font-size: 1rem;
+    background: none;
+    cursor: pointer;
+}
+
+.header__button:hover {
+    background-color: var(--grey);
 }
 
 body {
