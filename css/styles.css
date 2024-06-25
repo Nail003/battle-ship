@@ -7,6 +7,7 @@
 
 :root {
     --black-pure: hsl(0, 0%, 0%);
+    --black-pure-glass: hsla(0, 0%, 0%, 0.5);
     --black: hsl(0, 0%, 10%);
     --grey-dark: hsl(0, 0%, 20%);
     --grey: hsl(0, 0%, 30%);
@@ -29,7 +30,6 @@ header {
 
     padding: 8px 64px;
     background-color: var(--grey-dark);
-    box-shadow: 0 0 16px var(--black-pure);
 }
 
 .header__button-container {
@@ -56,6 +56,13 @@ button {
 
 body {
     background-color: var(--black);
+}
+
+.event-messages {
+    padding: 8px 0;
+    text-align: center;
+    box-shadow: 0 4px 4px var(--black-pure-glass);
+    background-color: var(--grey);
 }
 
 .board-container {

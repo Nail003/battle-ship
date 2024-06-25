@@ -1,4 +1,5 @@
 import Player from "../../classes/player/player.js";
+import renderEventMessage from "../event_message/eventMessage.js";
 import renderGameboard from "../gameboard_DOM/gameboardDOM.js";
 import renderShips from "../ship_DOM/shipDOM.js";
 
@@ -43,10 +44,12 @@ function handleStartButton(gameState) {
         if (button.textContent === startString) {
             gameState.start = true;
             button.textContent = resetString;
+            renderEventMessage(undefined, "start");
             return;
         }
         button.textContent = startString;
         gameState.start = false;
+        renderEventMessage(undefined, "reset");
         resetGameLoop();
     };
 }
