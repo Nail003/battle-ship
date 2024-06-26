@@ -123,7 +123,7 @@ export default class Gameboard {
         // Increase number of ships
         this.#activeShips++;
         // Update the occupied ship cells
-        this.shipCells = [...this.shipCells, ...shipCoords];
+        this.shipCells.push(shipCoords);
     }
 
     #isOccupiedHorizontly(row, col, ship) {
