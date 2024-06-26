@@ -1,9 +1,13 @@
 import Ship from "../../classes/ship/ship.js";
 
 export default function renderShips(player1, player2) {
-    // Get
-    const player1DOM = document.getElementsByClassName("player1-board")[0];
+    // Render each ship on player1 board
+    generatePlayerShips(player1);
+    // Add player 2 ships on board but don't render them
+    generatePlayerShips(player2);
+}
 
+export function generatePlayerShips(player) {
     // Ships
     const carrier = new Ship(5, 5);
     const battleShip = new Ship(4, 4);
@@ -11,19 +15,15 @@ export default function renderShips(player1, player2) {
     const subMarine = new Ship(3, 3);
     const destroyer = new Ship(2, 2);
 
-    // Render each ship on player1 board
-    renderShip(player1.board.addShip(["f", 5], battleShip), player1DOM);
-    renderShip(player1.board.addShip(["b", 3], carrier, true), player1DOM);
-    renderShip(player1.board.addShip(["d", 1], cruiser, true), player1DOM);
-    renderShip(player1.board.addShip(["e", 8], subMarine), player1DOM);
-    renderShip(player1.board.addShip(["h", 2], destroyer, true), player1DOM);
+    const shipsArray = [carrier, battleShip, cruiser, subMarine, destroyer];
 
-    // Add player 2 ships on board but don't them
-    player2.board.addShip(["f", 5], battleShip);
-    player2.board.addShip(["b", 3], carrier, true);
-    player2.board.addShip(["d", 1], cruiser, true);
-    player2.board.addShip(["e", 8], subMarine);
-    player2.board.addShip(["h", 2], destroyer, true);
+    for (const ship of shipsArray) {
+        addShipOnRandomCoords(player, ship);
+    }
+
+    if (player.name === "player1") {
+        renderPlayer1Ships(player.board.shipCells);
+    }
 }
 
 function renderShip(shipCoords, playerDOM) {
@@ -49,4 +49,42 @@ function renderShip(shipCoords, playerDOM) {
         const cellDOM = playerDOM.querySelector(`[data-coords~=${coord}]`);
         cellDOM.classList.add("board-cell--ship");
     }
+}
+
+function addShipOnRandomCoords(player, ship) {
+    const coords = generateRandomCoords();
+    const randomFlag = generateRandomNumber(1);
+    const results = player.board.addShip(coords, ship, randomFlag);
+    if (results) return;
+    addShipOnRandomCoords(player, ship);
+}
+
+function renderPlayer1Ships(coordsArray) {
+    // Get
+    const player1DOM = document.getElementsByClassName("player1-board")[0];
+    const shipCellsDOM = player1DOM.getElementsByClassName("board-cell--ship");
+
+    // Remove old ship cells if any
+    // We need to use while loop because
+    // Whenever you remove a class that element is automatically removed from html collection
+    while (shipCellsDOM.length > 0) {
+        shipCellsDOM[0].classList.remove("board-cell--ship");
+    }
+
+    // Add new ship cells
+    for (const coords of coordsArray) {
+        renderShip(coords, player1DOM);
+    }
+}
+
+function generateRandomCoords() {
+    const rowsArray = "abcdefghij".split("");
+    const max = 9;
+    const row = rowsArray[generateRandomNumber(max)];
+    const col = generateRandomNumber(max);
+    return [row, col];
+}
+
+function generateRandomNumber(max) {
+    return Math.round(Math.random() * max);
 }
