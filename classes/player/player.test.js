@@ -19,4 +19,10 @@ describe("Player", () => {
         player.name = playerName;
         expect(player.name).toBe(playerName);
     });
+
+    it("should reset the player board", () => {
+        const oldBoard = player.board;
+        player.resetBoard();
+        expect(oldBoard).not.toBe(player.board);
+    });
 });

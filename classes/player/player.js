@@ -5,4 +5,8 @@ export default class Player {
         this.board = new Gameboard();
         this.name = name;
     }
+
+    resetBoard() {
+        this.board = new Gameboard();
+    }
 }
