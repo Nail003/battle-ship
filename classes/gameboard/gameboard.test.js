@@ -126,6 +126,28 @@ describe("Gameboard", () => {
         expect(board.addShip(coords2, ship, true)).toBeFalsy();
     });
 
+    it("should return array with currently occupied cells by ships", () => {
+        let ship = new Ship(3, 3);
+        let coords = ["d", 5];
+        let coords2 = ["d", 6];
+        let coords3 = ["d", 7];
+        const coordsArray = [coords, coords2, coords3];
+
+        board.addShip(coords, ship, true);
+        expect(board.shipCells).toEqual(coordsArray);
+
+        ship = new Ship(3, 3);
+        coords = ["f", 5];
+        coords2 = ["g", 5];
+        coords3 = ["h", 5];
+
+        board.addShip(coords, ship);
+        coordsArray.push(coords);
+        coordsArray.push(coords2);
+        coordsArray.push(coords3);
+        expect(board.shipCells).toEqual(coordsArray);
+    });
+
     describe("Attack", () => {
         const coords = ["b", 2];
 

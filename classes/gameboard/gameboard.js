@@ -11,6 +11,7 @@ export default class Gameboard {
         this.#border = { min: 0, max: 10 };
         this.#activeShips = 0;
         this.missedAttacks = 0;
+        this.shipCells = [];
     }
 
     info(coords) {
@@ -99,8 +100,8 @@ export default class Gameboard {
             this.#board[nextRow][col].shipRef = ship;
             shipCoords.push([nextRow, col]);
         }
-        // Increase number of ships
-        this.#activeShips++;
+        // Update status
+        this.#updateShipsStatus(shipCoords);
         return shipCoords;
     }
 
@@ -113,9 +114,16 @@ export default class Gameboard {
             this.#board[row][nextCol].shipRef = ship;
             shipCoords.push([row, nextCol]);
         }
+        // Update status
+        this.#updateShipsStatus(shipCoords);
+        return shipCoords;
+    }
+
+    #updateShipsStatus(shipCoords) {
         // Increase number of ships
         this.#activeShips++;
-        return shipCoords;
+        // Update the occupied ship cells
+        this.shipCells = [...this.shipCells, ...shipCoords];
     }
 
     #isOccupiedHorizontly(row, col, ship) {
