@@ -1,16 +1,16 @@
 export default function renderWinMessage(playerName) {
-    const messageBoxContainer = document.getElementsByClassName(
-        "message-box-container"
-    )[0];
-    const message = messageBoxContainer.getElementsByClassName(
-        "message-box__message"
-    )[0];
+    // Get
+    const msgBox = document.getElementsByClassName("message-box-container")[0];
+    const message = msgBox.getElementsByClassName("message-box__message")[0];
 
     if (playerName === "player1") {
+        // If player 1 wins show this message
         message.textContent = "You Lost Nerd!! Go back to the chess club.";
     } else {
+        // If player 2 wins show this message
         message.textContent = "Congratulations, You Won!!";
     }
 
-    messageBoxContainer.classList.remove("hidden");
+    // Display the message on screen
+    msgBox.classList.remove("hidden");
 }

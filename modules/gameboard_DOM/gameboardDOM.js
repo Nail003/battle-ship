@@ -1,92 +1,44 @@
-import renderEventMessage from "../event_message/eventMessage.js";
-import renderWinMessage from "../win_message/winMessageBox.js";
+import { createBoardRows } from "../utils/boardRows/boardRows.js";
+import { handleCellClick } from "./gameBoardEventListeners.js";
 
 export default function renderGameboard(player1, player2, gameState) {
     // Get
-    const boardContainer =
-        document.getElementsByClassName("board-container")[0];
-
+    const boardContainer = document.querySelector(".board-container");
     // Create Child
     const player1Board = createGameboard(player1, gameState);
     const player2Board = createGameboard(player2, gameState);
-
     // Update Child
     player1Board.classList.add("player1-board");
     player2Board.classList.add("player2-board");
-
-    // Add scanner background to board
+    // Add scanner background to player2's board
     const scanner = document.createElement("div");
     scanner.classList.add("scanner-background");
     player2Board.appendChild(scanner);
-
     // Append Child
     boardContainer.appendChild(player1Board);
     boardContainer.appendChild(player2Board);
 }
 
 function createGameboard(player, gameState) {
-    const rows = "abcdefghij".split("");
+    // Create Rows
+    const rowsArray = createBoardRows();
     const border = 10;
     // Create
     const board = document.createElement("div");
-
     // Update
     board.classList.add("board");
 
-    for (const row of rows) {
+    for (const row of rowsArray) {
         for (let col = 0; col < border; col++) {
             // Create Child
             const cell = document.createElement("div");
-
             // Update Child
-            cell.dataset.coords = `${row}${col}`;
+            cell.dataset.coords = `${row}${col}`; // Each cell should have its own coords as data set
             cell.classList.add("board_cell");
             cell.addEventListener("click", handleCellClick(player, gameState));
-
             // Append Child
             board.appendChild(cell);
         }
     }
     return board;
-}
-
-function handleCellClick(player, gameState) {
-    return (e) => {
-        // If game is not started than don't do anything
-        if (!gameState.start) {
-            renderEventMessage(player, "no-start");
-            return;
-        }
-        // If its not your turn than return
-        if (gameState.turn === player.name) {
-            renderEventMessage(player, "attack-self");
-            return;
-        }
-        // Else its your turn
-        const coords = e.target.dataset.coords.split("");
-        const board = player.board;
-
-        // If the cell is already attacked than ask for input again
-        if (board.info(coords).isAttacked) {
-            renderEventMessage(player, "already-attacked");
-            return;
-        }
-
-        // Pass turn
-        gameState.turn = player.name;
-
-        if (board.receiveAttack(coords)) {
-            e.target.classList.add("board-cell--attacked");
-
-            renderEventMessage(player, "attack");
-            // If attacking player has won
-            if (board.isAllShipSunk()) {
-                renderEventMessage(player, "won");
-                renderWinMessage(player.name);
-            }
-            return;
-        }
-        renderEventMessage(player, "missed");
-        e.target.classList.add("board-cell--missed");
-    };
 }

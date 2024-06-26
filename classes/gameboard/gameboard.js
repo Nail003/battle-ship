@@ -1,4 +1,6 @@
-const rowsArray = "abcdefghij".split("");
+import { createBoardRows } from "../../modules/utils/boardRows/boardRows.js";
+
+const rowsArray = createBoardRows();
 // Testing exports
 export const defaultCell = { isEmpty: true, isAttacked: false, shipRef: null };
 
