@@ -1,4 +1,5 @@
 import renderEventMessage from "../event_message/eventMessage.js";
+import makeAIMove from "../player_ai/playerAI.js";
 import renderWinMessage from "../win_message/winMessageBox.js";
 
 export function handleCellClick(player, gameState) {
@@ -23,6 +24,7 @@ export function handleCellClick(player, gameState) {
         }
         // Pass turn
         gameState.turn = player.name;
+
         // Incase of successfull attack
         if (board.receiveAttack(coords)) {
             // Mark cell as attacked
@@ -33,10 +35,13 @@ export function handleCellClick(player, gameState) {
                 renderEventMessage(player, "won");
                 renderWinMessage(player.name);
             }
-            return;
+        } else {
+            // If attack was a miss
+            renderEventMessage(player, "missed");
+            e.target.classList.add("board-cell--missed");
         }
-        // If attack was a miss
-        renderEventMessage(player, "missed");
-        e.target.classList.add("board-cell--missed");
+
+        // AI
+        makeAIMove(player);
     };
 }

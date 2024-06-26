@@ -1,5 +1,6 @@
 import Player from "../../classes/player/player.js";
 import renderGameboard from "../gameboard_DOM/gameboardDOM.js";
+import { resetAI } from "../player_ai/playerAI.js";
 import renderShips from "../ship_DOM/shipDOM.js";
 import { assignGameLoopEventHandlers } from "./gameLoopEventHandlers.js";
 
@@ -28,6 +29,8 @@ export function resetGameLoop() {
     // Empty players boards
     player1.resetBoard();
     player2.resetBoard();
+    // Reset AI
+    resetAI();
     // Start the game again
     startGameLoop();
 }

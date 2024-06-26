@@ -1,10 +1,11 @@
+import createBoardColumns from "../boardColumns/boardColumns";
 import { createBoardRows } from "../boardRows/boardRows";
 import { generateRandomCoords } from "./generateRandomCoords";
 
 describe("Generate Random Coords", () => {
     it("should generate board coordinates", () => {
         const rowsArray = createBoardRows();
-        const columnArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const columnArray = createBoardColumns();
         const result = generateRandomCoords();
 
         expect(result.length).toBe(2);
