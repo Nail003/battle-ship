@@ -11,7 +11,10 @@ export function assignGameLoopEventHandlers(gameState, player1) {
 
     // Event Listeners
     startButton.addEventListener("click", handleStartButton(gameState));
-    reorderShipsButton.addEventListener("click", handleReorderButton(player1));
+    reorderShipsButton.addEventListener(
+        "click",
+        handleReorderButton(player1, gameState)
+    );
     msgBox.addEventListener("click", handleMessageButton(msgBox));
     closeMessageButton.addEventListener("click", handleMessageButton(msgBox));
 }
@@ -47,8 +50,14 @@ function handleStartButton(gameState) {
     };
 }
 
-function handleReorderButton(player) {
+function handleReorderButton(player, gameState) {
     return (_e) => {
+        // Player only allowed to reset when the game hasn't started
+        if (gameState.start === true) {
+            renderEventMessage(undefined, "no-reorder");
+            return;
+        }
+
         // Reset player board
         player.resetBoard();
 

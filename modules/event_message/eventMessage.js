@@ -33,12 +33,18 @@ export default function renderEventMessage(player, status) {
         return;
     }
     if (status === "missed") {
-        eventMessage.textContent = `Attack missed`;
+        const name = player.name === "player1" ? "player2" : "player1";
+        eventMessage.textContent = `${name} missed attack`;
         return;
     }
 
     if (status === "won") {
         eventMessage.textContent = `${player.name} lost!`;
+        return;
+    }
+
+    if (status === "no-reorder") {
+        eventMessage.textContent = "Cannot reorder ships during a game";
         return;
     }
 }
