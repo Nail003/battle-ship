@@ -13,7 +13,6 @@
 - [Testing](#testing)
 - [Built With](#built-with)
 - [Contributing](#contributing)
-- [License](#license)
 - [Acknowledgements](#acknowledgements)
 
 ## About
